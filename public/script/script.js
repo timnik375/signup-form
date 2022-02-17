@@ -81,7 +81,6 @@ async function signIn(e) {
 	await fetch('/sign-in', Params)
 		.then(response => response.json())
 		.then(data => {
-			console.log(data);
 			if (data.ok){
 				window.location.href = 'http://localhost:1604/success.html';
 			} else {
