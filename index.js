@@ -1,18 +1,41 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const Users = require('./models/User');
+const Users = require('./models/Users');
 const {body, checkSchema, validationResult} = require('express-validator');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const passportLocalMongoose = require('passport-local-mongoose');
+const session = require('express-session')
+const methodOverride = require('method-override');
+const flash = require('express-flash')
 
 const PORT = process.env.PORT || 1604;
 
 const app = express();
+
+app.set('view engine', 'ejs')
+
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
+app.use(flash());
+app.use(session({
+	secret: 'Secret',
+	resave: false,
+	saveUninitialized: false
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(methodOverride('_method'))
+
+passport.use(Users.createStrategy());
+passport.serializeUser(Users.serializeUser());
+passport.deserializeUser(Users.deserializeUser());
 
 
 const registrationSchema = {
@@ -78,35 +101,57 @@ app.post('/sign-up', checkSchema(registrationSchema), async function(req,res){
 		})
 	};
 
-	const users = new Users({
+	Users.register(({
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
 		gender: req.body.gender,
 		telephone: req.body.telephone,
-		email: req.body.email,
-		password: req.body.password
-	})
-
-	await users.save();
-
-	return res.status(200).json({ok: 'ok'});
-})
-
-app.post('/sign-in', async (req, res) => {
-	const email = req.body.email;
-	const password = req.body.password;
-
-	Users.findOne({email: email, password: password}, function (err, user) {
-		if (!user) {
-			return res.status(200).json({
-				errors: 'Use correct data'
-			});
-		} else {
-			return res.status(200).json({ok: 'ok'});
+		email: req.body.email
+	}), req.body.password,
+		function (err, user) {
+		if (err) {
+			res.redirect('/register')
 		}
-	});
+		passport.authenticate('local')(req, res, function(){
+			res.redirect('/')
+		})
+	})
 })
 
+app.post('/sign-in', checkNotAuthenticated, passport.authenticate('local', {
+	successRedirect: '/',
+	failureRedirect: '/register',
+	failureFlash: true
+}))
+
+app.get('/register', checkNotAuthenticated, (req, res) => {
+	res.render('register.ejs')
+})
+
+
+app.get('/', checkAuthenticated, (req, res) => {
+	res.render('index.ejs')
+})
+
+app.delete('/logout', (req, res) => {
+	req.logOut()
+	res.redirect('/register')
+})
+
+function checkAuthenticated(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next()
+	} else {
+		res.redirect('/register')
+	}
+}
+
+function checkNotAuthenticated(req, res, next) {
+	if (req.isAuthenticated()) {
+		return res.redirect('index')
+	}
+	next()
+}
 
 async function start() {
 	try {

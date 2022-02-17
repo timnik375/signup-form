@@ -1,0 +1,100 @@
+<%- include ('partials/header') %>
+<body>
+<div class="wrapper">
+	<div class="form-container sign-up-container">
+		<form action="/sign-up" method="post" id="signup">
+			<div class="form-heading">
+				<h2>Create Account</h2>
+			</div>
+			<div class="error-input-list">
+				<% if (messages.error) { %>
+					<div class="error-item"><%= messages.error %></div>
+				<% } %>
+			</div>
+			<div class="input-list">
+				<div class="input-container">
+					<input type="text" placeholder="First Name" name="firstName"/>
+				</div>
+				<div class="input-container">
+					<input type="text" placeholder="Last Name" name="lastName"/>
+				</div>
+				<div class="input-container">
+					<input type="text" placeholder="Gender" name="gender"/>
+				</div>
+				<div class="input-container">
+					<input type="text" placeholder="Telephone" name="telephone"/>
+				</div>
+				<div class="input-container">
+					<input type="text" placeholder="Email" name="email"/>
+				</div>
+				<div class="input-container">
+					<input class="input-password" type="text" placeholder="Password" name="password" />
+				</div>
+				<div class="input-container">
+					<input class="input-password" type="text" placeholder="Confirm Password" name="confirmPassword" />
+				</div>
+			</div>
+			<div class="submit-container">
+				<button class="signup-submit-btn">Sign Up</button>
+			</div>
+		</form>
+	</div>
+	<div class="form-container sign-in-container">
+		<form action="/sign-in" method="post" id="signin">
+			<div class="form-heading">
+				<h2>Sign in</h2>
+			</div>
+			<div class="error-input-list">
+				<% if (messages.error) { %>
+					<div class="error-item"><%= messages.error %></div>
+				<% } %>
+			</div>
+			<div class="input-list">
+				<div class="input-container">
+					<input type="text" placeholder="Email" name="email"/>
+				</div>
+				<div class="input-container">
+					<input class="input-password" type="text" placeholder="Password" name="password" />
+				</div>
+			</div>
+			<div class="reset-password-container">
+				<a class="reset-password-link" href="#" >Forgot your password?</a>
+			</div>
+			<div class="submit-container">
+				<button class="signin-submit-btn">Sign In</button>
+			</div>
+		</form>
+	</div>
+	<div class="overlay">
+		<div class="overlay-container">
+			<div class="overlay-item overlay-left">
+				<div class="overlay-heading">
+					<h2>Welcome Back!</h2>
+				</div>
+				<div class="overlay-body">
+					<p>
+						To keep connected with us please log in with your personal info
+					</p>
+				</div>
+				<div class="overlay-switch">
+					<button class="overlay-switch-btn" id="sign-in-switch-btn">Sign In</button>
+				</div>
+			</div>
+			<div class="overlay-item overlay-right">
+				<div class="overlay-heading">
+					<h2>Hello, Friend!</h2>
+				</div>
+				<div class="overlay-body">
+					<p>Enter your personal details and start journey with us</p>
+				</div>
+				<div class="overlay-switch">
+					<button class="overlay-switch-btn" id="sign-up-switch-btn">Sign Up</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="script/script.js"></script>
+</body>
+</html>

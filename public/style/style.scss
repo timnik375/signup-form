@@ -17,6 +17,10 @@ p {
   margin: 20px 0 30px;
 }
 
+.input-password {
+  -webkit-text-security: disc;
+}
+
 body {
   background: url("../img/Cloudy.svg");
   background-size: cover;
@@ -235,18 +239,25 @@ body {
       justify-content: center;
       align-items: center;
 
-      .app-heading {
-        background-image: url("../img/success.svg");
-        background-repeat: no-repeat;
-        background-size: cover;
-        width: 100px;
-        height: 100px;
-      }
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
-      .sign-out-container {
-        .sign-out-btn {
-          background-color: #1f3465;
-          border: 1px solid #1f3465;
+        .app-heading {
+          background-image: url("../img/success.svg");
+          background-repeat: no-repeat;
+          background-size: cover;
+          width: 100px;
+          height: 100px;
+        }
+
+        .sign-out-container {
+          .sign-out-btn {
+            background-color: #1f3465;
+            border: 1px solid #1f3465;
+          }
         }
       }
     }
