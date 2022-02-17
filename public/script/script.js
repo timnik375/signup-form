@@ -59,7 +59,7 @@ async function signUp(e) {
 }
 
 async function signIn(e) {
-	// e.preventDefault();
+	e.preventDefault();
 
 	const formSignIn = document.querySelector('#signin');
 	const errorsList = formSignIn.querySelector('.error-input-list');
